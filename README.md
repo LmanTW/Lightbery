@@ -118,6 +118,17 @@ myLightbery.addPlugin(Plugins.CLI)                           //添加插件 CLI 
 ```
 
 # Plugin API
+你可以用 Plugin API 來簡單的創建自己的插件，以下是一個簡易插件的範例：
+```js
+module.exports = class {
+  constructor (core, options) {
+    //要做的事情
+  }
+
+  static get pluginID () {return 'Example'} //插件的ID
+  get childThreadApiPath () {return undefined} //子線成呼叫的 API
+}
+```
 
 # 資料格式
 
