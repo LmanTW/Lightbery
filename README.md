@@ -31,7 +31,7 @@ myLightbery.addPlugin(Plugins.CLI)                           //添加插件 CLI 
 new Lightbery(path, options) //加載一個 Lightbery
 ```
 * `path <string>`｜Lightbery 所在的路徑
-* `options <object>`｜Lightbery 的選項
+* `options <undefined, object>`｜Lightbery 的選項
   * `networkThread <number>`｜網路的線程數 `預設為: 5`
   * `workerThread <number>`｜Worker的線程數 `預設為: 該設備的線程數`
   
@@ -48,7 +48,7 @@ new Lightbery(path, options) //加載一個 Lightbery
 .addPlugin(Plugin, options) //添加插件        
 ```
 * `Plugin <class>`｜一個插件的 <class>
-* `options <any>`｜插件的選項
+* `options <undefined, any>`｜插件的選項
 
 ## getImageInfo()
 ```js
@@ -65,6 +65,24 @@ new Lightbery(path, options) //加載一個 Lightbery
 * `imageID <string>` //圖片的 ID
 
 > 返回 [圖片資料](#圖片資料)
+
+## search()
+```js
+.search(query, type) //搜尋圖片
+```
+* `query <array>`｜搜尋的關鍵字
+* `type <undefined, string>`｜搜尋的類型 (title, author, tags)
+
+> 返回 <array> (包含所有找到的圖片的 ID)
+
+## add()
+```js
+.add(imageID) //添加圖片
+```
+* `imageID <string>`｜圖片的 ID
+
+> [!NOTE]
+> Lightbery 只能儲存單張圖片，如果你讓它下載一個包含多頁的 Pixiv 插畫，他只會下載第一張。
 
 # 資料格式
 
