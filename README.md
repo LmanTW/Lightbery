@@ -17,6 +17,8 @@ myLightbery.addPlugin(Plugins.CLI)                           //添加插件 CLI 
   * [getImageData()](#getimagedata)
   * [search()](#search)
   * [add()](#add)
+  * [checkImagesData()](#checkimagesdata)
+  * [checkRepeatImages()](#checkrepeatimages)
 * [資料格式](#資料格式)
   * [圖片資訊](#圖片資訊)
   * [圖片資料](#圖片資料)
@@ -78,6 +80,8 @@ await .add(imageID) //添加圖片
 ```
 * `imageID <string>`｜圖片的 ID
 
+當在添加圖片時發生錯誤，它會返回一個 <物件> 類似 { error: true, content: <string> } (如果沒有發生錯誤則會返回 { error: false })
+
 > [!NOTE]
 > Lightbery 只能儲存單張圖片，如果你讓它下載一個包含多頁的 Pixiv 插畫，他只會下載第一張。
 
@@ -86,6 +90,11 @@ await .add(imageID) //添加圖片
 await .checkImagesData(images) //檢查圖片的資料
 ```
 * `images <array>`｜要檢查的圖片 (一個包含圖片 ID 的陣列)
+
+## checkRepeatImages()
+```js
+await .checkRepeatImages() //檢查是否有重複的圖片
+```
 
 # 資料格式
 
