@@ -19,11 +19,12 @@ myLightbery.addPlugin(Plugins.CLI)                           //添加插件 CLI 
   * [add()](#add)
   * [checkImagesData()](#checkimagesdata)
   * [checkRepeatImages()](#checkrepeatimages)
+* [內建插件](#內建插件)
+   * [CLI](#cli)
+* [插件 API]()
 * [資料格式](#資料格式)
   * [圖片資訊](#圖片資訊)
   * [圖片資料](#圖片資料)
-* [內建插件](#內建插件)
-* [插件 API]()
 
 # Lightbery
 ```js
@@ -99,6 +100,19 @@ await .checkRepeatImages() //檢查是否有重複的圖片
 > [!NOTE]
 > 在第一次進行重複圖片檢查的時後可能會花費較長的時間，因為它需要創建所有圖片的像素資料。
 
+# 內建插件
+
+## CLI
+內建的命令行介面，你可以用它來新增, 檢查, 移除圖片
+```js
+const { Lightbery, Plugins } = require('./Lightbery/API')    //導入 Lightbery 與 Plugins
+
+let myLightbery = new Lightbery(`${__dirname}/My Lightbery`) //加載一個 Lightbery
+myLightbery.addPlugin(Plugins.CLI)                           //添加插件 CLI (命令行介面)
+```
+
+# Plugin API
+
 # 資料格式
 
 ## 圖片資訊
@@ -128,11 +142,3 @@ await .checkRepeatImages() //檢查是否有重複的圖片
   data: <buffer> //圖片的 buffer
 }
 ```
-
-## 
-
-## getImageInfo
-
-# 內建插件
-
-# Plugin API
