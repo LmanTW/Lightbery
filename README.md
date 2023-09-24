@@ -75,7 +75,7 @@ await .getImageData(imageID) //取得圖片的資料 (如圖片儲存路徑, 圖
 * `query <array>`｜搜尋的關鍵字 (一個包含關鍵字的陣列)
 * `type <undefined, string>`｜搜尋的類型 (title, author, tags)
 
-> 返回 <array> (包含所有找到的圖片的 ID)
+> 返回一個包含所有搜尋到的圖片的ID的陣列
 
 ## add()
 ```js
@@ -94,10 +94,14 @@ await .checkImagesData(images) //檢查圖片的資料
 ```
 * `images <array>`｜要檢查的圖片 (一個包含圖片 ID 的陣列)
 
+> 返回 `<undefined>`
+
 ## checkRepeatImages()
 ```js
 await .checkRepeatImages() //檢查是否有重複的圖片
 ```
+
+> 返回 `<undefined>`
 
 > [!NOTE]
 > 在第一次進行重複圖片檢查的時後可能會花費較長的時間，因為它需要創建所有圖片的像素資料。
