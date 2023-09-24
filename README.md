@@ -50,6 +50,8 @@ new Lightbery(path, options) //加載一個 Lightbery
 * `Plugin <class>`｜一個插件的 <class>
 * `options <undefined, any>`｜插件的選項
 
+> 返回 Plugin
+
 ## getImageInfo()
 ```js
 await .getImageInfo(imageID) //取得圖片的資訊
@@ -81,10 +83,10 @@ await .add(imageID) //添加圖片
 ```
 * `imageID <string>`｜圖片的 ID
 
-當在添加圖片時發生錯誤，它會返回一個 <物件> 類似 { error: true, content: <string> } (如果沒有發生錯誤則會返回 { error: false })
-
 > [!NOTE]
 > Lightbery 只能儲存單張圖片，如果你讓它下載一個包含多頁的 Pixiv 插畫，他只會下載第一張。
+
+> 當在添加圖片的時候發生錯誤，他會返回 { error: true, content: <string> }，如果沒有發生錯誤則會返回 { error: false }
 
 ## checkImagesData()
 ```js
