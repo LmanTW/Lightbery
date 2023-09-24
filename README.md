@@ -20,8 +20,9 @@ myLightbery.addPlugin(Plugins.CLI)                           //添加插件 CLI 
   * [getImageData()](#getimagedata)
   * [search()](#search)
   * [add()](#add)
-* 資料
+* [資料格式](#資料格式)
   * [圖片資訊](#圖片資訊)
+  * [圖片資料](#圖片資料)
 * [內建插件](#內建插件)
 * [插件 API]()
 
@@ -55,7 +56,17 @@ new Lightbery(path, options) //加載一個 Lightbery
 ```
 * `imageID <string>` //圖片的 ID
 
-返回 [圖片資訊](#圖片資訊)
+> 返回 [圖片資訊](#圖片資訊)
+
+## getImageData()
+```js
+.getImageData(imageID) //取得圖片的資料 (如圖片儲存路徑, 圖片 buffer 等)
+```
+* `imageID <string>` //圖片的 ID
+
+> 返回 [圖片資料](#圖片資料)
+
+# 資料格式
 
 ## 圖片資訊
 ```js
@@ -74,6 +85,18 @@ new Lightbery(path, options) //加載一個 Lightbery
   ai: <boolean> //圖片是否為 AI 創作
 }
 ```
+
+## 圖片資料
+```js
+{
+  imagePath: <string>, //圖片的儲存路徑
+  width: <number>, //圖片的寬度
+  height: <number>, //圖片的高度
+  data: <buffer> //圖片的 buffer
+}
+```
+
+## 
 
 ## getImageInfo
 
