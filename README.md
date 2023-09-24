@@ -96,6 +96,9 @@ await .checkImagesData(images) //檢查圖片的資料
 await .checkRepeatImages() //檢查是否有重複的圖片
 ```
 
+> [!NOTE]
+> 在第一次進行重複圖片檢查的時後可能會花費較長的時間，因為它需要創建所有圖片的像素資料。
+
 # 資料格式
 
 ## 圖片資訊
