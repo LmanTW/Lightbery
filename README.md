@@ -1,9 +1,6 @@
 # Lightbery
 > Lightbery (Library 的諧音，~~我喜歡給我每個專案都加上一個 Light~~) 是一個基於 Pixiv 的圖庫系統，它擁有內建的 CLI 介面來管理圖庫，也有內建的網頁 APP 來瀏覽圖庫。
 
-> [!NOTE]
-> Lightbery 只能儲存單張圖片，如果你讓它下載一個包含多頁的 Pixiv 插畫，他只會下載第一張。
-
 ## 範例
 ```js
 const { Lightbery, Plugins } = require('./Lightbery/API')    //導入 Lightbery 與 Plugins
@@ -52,7 +49,7 @@ new Lightbery(path, options) //加載一個 Lightbery
 
 ## getImageInfo()
 ```js
-.getImageInfo(imageID) //取得圖片的資訊
+await .getImageInfo(imageID) //取得圖片的資訊
 ```
 * `imageID <string>` //圖片的 ID
 
@@ -60,7 +57,7 @@ new Lightbery(path, options) //加載一個 Lightbery
 
 ## getImageData()
 ```js
-.getImageData(imageID) //取得圖片的資料 (如圖片儲存路徑, 圖片 buffer 等)
+await .getImageData(imageID) //取得圖片的資料 (如圖片儲存路徑, 圖片 buffer 等)
 ```
 * `imageID <string>` //圖片的 ID
 
@@ -70,19 +67,25 @@ new Lightbery(path, options) //加載一個 Lightbery
 ```js
 .search(query, type) //搜尋圖片
 ```
-* `query <array>`｜搜尋的關鍵字
+* `query <array>`｜搜尋的關鍵字 (一個包含關鍵字的陣列)
 * `type <undefined, string>`｜搜尋的類型 (title, author, tags)
 
 > 返回 <array> (包含所有找到的圖片的 ID)
 
 ## add()
 ```js
-.add(imageID) //添加圖片
+await .add(imageID) //添加圖片
 ```
 * `imageID <string>`｜圖片的 ID
 
 > [!NOTE]
 > Lightbery 只能儲存單張圖片，如果你讓它下載一個包含多頁的 Pixiv 插畫，他只會下載第一張。
+
+## checkImagesData()
+```js
+await .checkImagesData(images) //檢查圖片的資料
+```
+* `images <array>`｜要檢查的圖片 (一個包含圖片 ID 的陣列)
 
 # 資料格式
 
