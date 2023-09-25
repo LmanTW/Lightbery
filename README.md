@@ -21,7 +21,6 @@ myLightbery.addPlugin(Plugins.CLI)                           //添加插件 CLI 
   * [checkRepeatImages()](#checkrepeatimages)
 * [內建插件](#內建插件)
    * [CLI](#cli)
-* [插件 API]()
 * [資料格式](#資料格式)
   * [圖片資訊](#圖片資訊)
   * [圖片資料](#圖片資料)
@@ -115,19 +114,6 @@ const { Lightbery, Plugins } = require('./Lightbery/API')    //導入 Lightbery 
 
 let myLightbery = new Lightbery(`${__dirname}/My Lightbery`) //加載一個 Lightbery
 myLightbery.addPlugin(Plugins.CLI)                           //添加插件 CLI (命令行介面)
-```
-
-# Plugin API
-你可以用 Plugin API 來簡單的創建自己的插件，以下是一個簡易插件的範例：
-```js
-module.exports = class {
-  constructor (core, options) {
-    //要做的事情
-  }
-
-  static get pluginID () {return 'Example'} //插件的ID
-  get childThreadApiPath () {return undefined} //子線成呼叫的 API
-}
 ```
 
 # 資料格式
