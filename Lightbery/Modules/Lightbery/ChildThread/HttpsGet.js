@@ -7,7 +7,7 @@ module.exports = async (url, progressCallback) => {
       headers: {
         Referer: 'https://www.pixiv.net/',
 
-        'Accept-Language': 'en-US,en'
+        'Accept-Language': 'en-US'
       },
     }, (res) => {
       let buffer = Buffer.alloc(0)

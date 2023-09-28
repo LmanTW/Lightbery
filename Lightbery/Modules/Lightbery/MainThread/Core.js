@@ -7,9 +7,10 @@ module.exports = class {
   #workerHandler
 
   #plugins = {}
-
+  
   constructor (path, options) {
     this.#path = path
+    this.checkFiles()
 
     this.#workerHandler = new WorkerHandler(this.#path, options)
 
@@ -25,15 +26,13 @@ module.exports = class {
   get workerHandler () {return this.#workerHandler}
   get plugins () {return this.#plugins}
 
-  get size () {return Object.keys(this.images).length}
-
-  //添加模塊
+  //添加插件
   addPlugin (Plugin, options) {
-    if (Plugin.pluginID === undefined) throw new Error(`參數 Plugin 必須為一個有效的插件`)
-    else if (Object.keys(this.#plugins).includes(Plugin.pluginID)) throw new Error(`已經有ID為 ${Plugin.pluginID} 的模塊被添加了`)
-    
+    if (Plugin.pluginID === undefined) throw new Error('無法識別插件')
+    if (this.#plugins[Plugin.pluginID] !== undefined) throw new Error(`已經有ID為 ${Plugin.pluginID} 的插件被添加了`)
+
     this.#plugins[Plugin.pluginID] = new Plugin(this, options)
-    this.#workerHandler.worker.postMessage({ type: 'plugins', plugins: Object.keys(this.#plugins).map((item) => {return { name: item, childThreadApiPath: this.#plugins[item].childThreadApiPath }}) })
+    this.#workerHandler.worker.postMessage({ type: 'addPlugin', pluginID: Plugin.pluginID, childThreadApiPath: this.#plugins[Plugin.pluginID].childThreadApiPath })
 
     return this.#plugins[Plugin.pluginID]
   }
@@ -48,7 +47,7 @@ module.exports = class {
     if (this.images[imageData] !== undefined) {
       return {
         imagePath: getPath(this.#path, ['Images', `${imageData}.jpg`]),
-        
+
         width: this.images[imageData].width,
         height: this.images[imageData].height,
 
@@ -120,7 +119,7 @@ module.exports = class {
 
   //檢查重複的圖片
   async checkRepeatImages () {
-    await this.#workerHandler.sendRequest({ type: 'checkRepeatImages', images: Object.keys(this.images) })
+    return await this.#workerHandler.sendRequest({ type: 'checkRepeatImages', images: Object.keys(this.images) })
   }
 
   //移除圖片

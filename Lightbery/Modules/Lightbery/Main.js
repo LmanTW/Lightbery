@@ -6,20 +6,20 @@ module.exports = class {
   #core
 
   constructor (path, options) {
+    if (typeof path !== 'string') throw new Error('參數 path 必須為一個 <string>')
     if (!fs.existsSync(path)) throw new Error(`找不到資料夾 ${path}`)
-    else if (!fs.statSync(path).isDirectory()) throw new Error(`${path} 不是一個資料夾`)
+    if (!fs.statSync(path).isDirectory()) throw new Error(`${path} 不是一個資料夾`)
 
-    options = Object.assign({
+    this.#core = new Core(path, Object.assign({
       networkThread: 5,
       workerThread: os.cpus().length 
-    }, options)
-
-    this.#core = new Core(path, { networkThread: options.networkThread, workerThread: options.workerThread })
+    }, options))
 
     this.#core.checkFiles()
   }
 
-  get size () {return this.#core.size}
+  get path () {return this.#core.path}
+  get size () {return Object.keys(this.#core.images).length}
 
   //添加插件
   addPlugin (Plugin, options) {
@@ -53,7 +53,7 @@ module.exports = class {
 
   //檢查重複的圖片
   async checkRepeatImages () {
-    await this.#core.checkRepeatImages()
+    return await this.#core.checkRepeatImages()
   }
 }
 
