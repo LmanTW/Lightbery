@@ -9,9 +9,6 @@ let myLightbery = new Lightbery(`${__dirname}/My Lightbery`) //加載一個 Ligh
 myLightbery.addPlugin(Plugins.CLI)                           //添加插件 CLI (命令行介面)
 ```
 
-> [!NOTE]
-> 我正在製作新版的 API，將會對製作插件擁有更大的彈性
-
 # 目錄
 * [Lightbery](#lightbery)
   * [size](#size)
