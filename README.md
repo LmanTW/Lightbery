@@ -116,6 +116,9 @@ let myLightbery = new Lightbery(`${__dirname}/My Lightbery`) //加載一個 Ligh
 myLightbery.addPlugin(Plugins.CLI)                           //添加插件 CLI (命令行介面)
 ```
 
+**依賴**
+> * Log (內建)
+
 # 資料格式
 
 ## 圖片資訊
