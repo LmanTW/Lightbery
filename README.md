@@ -10,7 +10,7 @@ myLightbery.addPlugin(Plugins.CLI)                           //添加插件 CLI 
 ```
 
 # 目錄
-* [Lightbery](#lightbery)
+* [Lightbery](#lightbery-1)
   * [size](#size)
   * [addPlugin(Plugin)](#addplugin)
   * [getImageInfo(imageID)](#getimageinfo)
