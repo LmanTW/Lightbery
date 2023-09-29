@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Lightbery｜主頁</title>
+    <link rel="stylesheet" type="text/css" href="/style/basic.css" />
+  </head>
+
+  <body>
+    <div style="display: flex; justify-content: center; align-items: center; background-color: #032039; height: 75px">
+      <input id="input_search" class="input" style="font-size: 22.5px; padding-left: 10px; padding-right: 10px; width: calc(100vw - 40vw); height: 40px">
+      <select id="select_type" style="outline: none; background: #053966; color: white; border: none; border-radius: 10px; font-size: 17.5px; margin-left: 10px; padding: 10px; height: 40px">
+        <option value="all">全部</option>
+        <option value="tags">標籤</option>
+        <option value="title">標題</option>
+        <option value="author">作者</option>
+      </select>
+    </div>
+    <div id="scroll" style="display: flex; justify-content: center; height: calc(100vh - 75px); overflow-y: scroll">
+      <div>
+        <div style="width: 90vw; height: 10px"></div>
+        <div id="images" style="display: flex; flex-wrap: wrap; justify-content: center; width: 90vw; height: calc(100vh - 85px)"></div>
+      </div>
+    </div>
+  </body>
+
+  <script type="module">
+    import imagePreview from '/script/imagePreview.js'
+
+    const input_search = document.getElementById('input_search')
+    const select_type = document.getElementById('select_type')
+    const scroll = document.getElementById('scroll')
+    const images = document.getElementById('images')
+
+    let params = new URLSearchParams(window.location.search)
+    if (params.get('query') !== null) input_search.value = params.get('query')
+    if (params.get('type') !== null) select_type.value = params.get('type')
+
+    let loading = false
+    let chunk = 0
+    let end = false
+
+    //添加預覽圖片
+    async function addImagePreview () {
+      loading = true
+
+      let query = ['amount=25', `type=${select_type.options[select_type.selectedIndex].value}`, `chunk=${chunk}`]
+      if (input_search.value !== '') query.push(`query=${input_search.value.split(' ')}`)
+
+      let data = await (await fetch(`/api/search?${query.join('&')}`)).json()
+      if (data.length > 0) data.forEach((item) => imagePreview(images, item))
+      else end = true
+
+      loading = false
+      chunk++
+    }
+
+    addImagePreview()
+
+    input_search.onchange = () => {
+      while (images.lastElementChild) images.removeChild(images.lastElementChild)
+      chunk = 0
+      end = false
+      addImagePreview()
+    }
+
+    select_type.onchange = () => {
+      while (images.lastElementChild) images.removeChild(images.lastElementChild)
+      chunk = 0
+      end = false
+      addImagePreview()
+    }
+
+    scroll.onscroll = () => {
+      if (scroll.scrollHeight-scroll.scrollTop -scroll.clientHeight === 0 && !loading && !end) addImagePreview()
+    }
+  </script>
+</html>

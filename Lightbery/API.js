@@ -4,7 +4,7 @@ require('../Lightbery/Modules/Tools/CheckPackages')(['sharp', 'skia-canvas', 'wc
 module.exports = {
   Lightbery: require('./Modules/Lightbery/Main'),
   Plugins: {
-    CLI: require('./Plugins/CLI/Main'),
-    WebImageBrowser: require('./Plugins/WebImageBrowser/Main')
+    LightberyCLI: require('./Plugins/LightberyCLI/Main'),
+    LightberyWeb: require('./Plugins/LightberyWeb/Main')
   }
 }
