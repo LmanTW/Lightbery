@@ -95,8 +95,8 @@ module.exports = class {
             state = item2.toLowerCase().includes(item3.toLowerCase())
             if (!state) break
           }
+          return state
         }
-        return state
       })
     }
 

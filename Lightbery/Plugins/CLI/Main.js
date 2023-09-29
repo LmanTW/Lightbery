@@ -2,13 +2,12 @@
 module.exports = class {
   #core
 
-  #log
   #commandSuggestion = getCommandSuggestion('').lines
 
   constructor (core) {
     this.#core = core
 
-    this.#log = this.#core.addPlugin(require('../Log/Main'))
+    if (this.#core.plugins.Log === undefined) this.#core.addPlugin(require('../Log/Main'))
 
     let cli = new CLI()
       .addPage('日誌', () => this.#core.plugins.Log.get())
@@ -36,13 +35,13 @@ module.exports = class {
             }
           }
         } else if (command.path[0] === 'remove') {
-          if (this.#core.images[command.path[1]] === undefined) this.#log.adLog('error', `找不到圖片 ${command.path[1]}`)
+          if (this.#core.images[command.path[1]] === undefined) this.#core.plugins.Log.adLog('error', `找不到圖片 ${command.path[1]}`)
           else {
             this.#core.remove(command.path[1])
-            this.#log.addLog('complete', `成功移除圖片 ${command.path[1]}`)
+            this.#core.plugins.Log.addLog('complete', `成功移除圖片 ${command.path[1]}`)
           }
         } else if (command.path[0] === 'size') {
-          this.#log.addLog('complete', `圖庫大小: ${Object.keys(this.#core.images).length}`)
+          this.#core.plugins.Log.addLog('complete', `圖庫大小: ${Object.keys(this.#core.images).length}`)
         } else core.add(command.path[1])
       })
 
