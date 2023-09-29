@@ -6,7 +6,7 @@
 const { Lightbery, Plugins } = require('./Lightbery/API')    //導入 Lightbery 與 Plugins
 
 let myLightbery = new Lightbery(`${__dirname}/My Lightbery`) //加載一個 Lightbery
-myLightbery.addPlugin(Plugins.CLI)                           //添加插件 CLI (命令行介面)
+myLightbery.addPlugin(Plugins.LightCLI)                      //添加插件 LightberyCLI (命令行介面)
 ```
 
 # 目錄
@@ -20,7 +20,8 @@ myLightbery.addPlugin(Plugins.CLI)                           //添加插件 CLI 
   * [checkImagesData(images)](#checkimagesdata)
   * [checkRepeatImages()](#checkrepeatimages)
 * [內建插件](#內建插件)
-   * [CLI](#cli)
+   * [LightberyCLI](#lightberycli)
+   * [LightberyWeb](#lightberyweb)
 * [資料格式](#資料格式)
   * [圖片資訊](#圖片資訊)
   * [圖片資料](#圖片資料)
@@ -107,17 +108,28 @@ await .checkRepeatImages() //檢查是否有重複的圖片
 
 # 內建插件
 
-## CLI
+## LightberyCLI
 內建的命令行介面，你可以用它來新增, 檢查, 移除圖片
 ```js
 const { Lightbery, Plugins } = require('./Lightbery/API')    //導入 Lightbery 與 Plugins
 
 let myLightbery = new Lightbery(`${__dirname}/My Lightbery`) //加載一個 Lightbery
-myLightbery.addPlugin(Plugins.CLI)                           //添加插件 CLI (命令行介面)
+myLightbery.addPlugin(Plugins.LightberyCLI)                  //添加插件 LightberyCLI (命令行介面)
 ```
 
 **依賴**
 > * Log (內建)
+
+## LightberyWeb
+內建的網頁圖片瀏覽器，你可以用它來瀏覽, 搜尋圖片
+```js
+const { Lightbery, Plugins } = require('./Lightbery/API')    //導入 Lightbery 與 Plugins
+
+let myLightbery = new Lightbery(`${__dirname}/My Lightbery`) //加載一個 Lightbery
+myLightbery.addPlugin(Plugins.LightberyWeb)                  //添加插件 LightberyWeb (網頁圖片瀏覽器)
+```
+* `options <object>`｜Lightbery 的選項
+  * `port <number>`｜網頁瀏覽器使用的端口 `預設為: 8080`
 
 # 資料格式
 
