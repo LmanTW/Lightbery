@@ -117,16 +117,13 @@ let myLightbery = new Lightbery(`${__dirname}/My Lightbery`) //加載一個 Ligh
 myLightbery.addPlugin(Plugins.LightberyCLI)                  //添加插件 LightberyCLI (命令行介面)
 ```
 
-**依賴**
-> * Log (內建)
-
 ## LightberyWeb
 內建的網頁圖片瀏覽器，你可以用它來瀏覽, 搜尋圖片
 ```js
 const { Lightbery, Plugins } = require('./Lightbery/API')    //導入 Lightbery 與 Plugins
 
 let myLightbery = new Lightbery(`${__dirname}/My Lightbery`) //加載一個 Lightbery
-myLightbery.addPlugin(Plugins.LightberyWeb)                  //添加插件 LightberyWeb (網頁圖片瀏覽器)
+myLightbery.addPlugin(Plugins.LightberyWeb, <options>)       //添加插件 LightberyWeb (網頁圖片瀏覽器)
 ```
 * `options <object>`｜Lightbery 的選項
   * `port <number>`｜網頁瀏覽器使用的端口 `預設為: 8080`
