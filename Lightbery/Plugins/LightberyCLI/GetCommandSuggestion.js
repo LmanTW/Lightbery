@@ -55,7 +55,7 @@ const commands = {
     description: '打開圖片',
     child: []
   },
-  '<imaegID>': {
+  '<imageID>': {
     description: '添加圖片',
     child: []
   }
