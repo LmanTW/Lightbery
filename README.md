@@ -6,7 +6,7 @@
 const { Lightbery, Plugins } = require('./Lightbery/API')    //導入 Lightbery 與 Plugins
 
 let myLightbery = new Lightbery(`${__dirname}/My Lightbery`) //加載一個 Lightbery
-myLightbery.addPlugin(Plugins.LightCLI)                      //添加插件 LightberyCLI (命令行介面)
+myLightbery.addPlugin(Plugins.LightberyCLI)                  //添加插件 LightberyCLI (命令行介面)
 ```
 
 # 目錄
