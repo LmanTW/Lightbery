@@ -32,8 +32,9 @@ new Lightbery(path, options) //加載一個 Lightbery
 ```
 * `path <string>`｜Lightbery 所在的路徑
 * `options <undefined, object>`｜Lightbery 的選項
+  * `safetyMode <boolean>`｜是否要隨時儲存資料，這可以確保 Lightbery 在崩潰的時候仍然可以保存所有資料，但效能可能會降低 `預設為: false`
   * `networkThread <number>`｜網路的線程數 `預設為: 5`
-  * `workerThread <number>`｜Worker的線程數 `預設為: 該設備的線程數`
+  * `workerThread <number>`｜Worker 的線程數 `預設為: 該設備的線程數`
   
 > [!NOTE]
 > 如果你要創建一個新的 Lightbery，只需要創建一個新的資料夾，然後將 path 設為該資料夾的路徑即可，Lightbery 會自動幫你生成所有的檔案。
