@@ -48,6 +48,7 @@ module.exports = class {
           let data = this.#core.getImageData(query.imageID)
 
           if (data === undefined) res.end('Image Not Found')
+          else if (data === 'Image Data Not Found') res.end()
           else res.end((await sharp(data.data).jpeg({ quality: (query.quality === undefined || +query.quality < 10 || +query.quality > 100) ? 100 : +query.quality }).toBuffer()).toString('base64'))
         }
       } else if (path[0] === 'script') {

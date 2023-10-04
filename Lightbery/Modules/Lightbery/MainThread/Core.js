@@ -45,14 +45,16 @@ module.exports = class {
   //取得圖片的資料
   getImageData (imageData) {
     if (this.images[imageData] !== undefined) {
-      return {
-        imagePath: getPath(this.#path, ['Images', `${imageData}.jpg`]),
-
-        width: this.images[imageData].width,
-        height: this.images[imageData].height,
-
-        data: fs.readFileSync(getPath(this.#path, ['Images', `${imageData}.jpg`])),
-      }
+      if (fs.existsSync(getPath(this.#path, ['Images', `${imageData}.jpg`]))) {
+        return {
+          imagePath: getPath(this.#path, ['Images', `${imageData}.jpg`]),
+  
+          width: this.images[imageData].width,
+          height: this.images[imageData].height,
+  
+          data: fs.readFileSync(getPath(this.#path, ['Images', `${imageData}.jpg`])),
+        }
+      } else return 'Image Data Not Found'
     }
   }
 
@@ -106,7 +108,7 @@ module.exports = class {
   //新增圖片
   async add (imageID) {
     let data = await this.#workerHandler.sendRequest({ type: 'addImage', imageID })
-    
+
     this.save()
 
     return data

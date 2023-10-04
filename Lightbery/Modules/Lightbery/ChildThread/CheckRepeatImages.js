@@ -35,7 +35,7 @@ async function loadImagePixelData (images, state) {
   await resolvePromise(images, async (item, index) => {
     if (plugins.Log !== undefined) state.change('white', '檢查器', `正在加載圖片像素資料 (${Math.trunc((100/images.length)*index)}%)`)
   
-    if (imagesPixelData[item] === undefined) { 
+    if (imagesPixelData[item] === undefined) {
       change = true     
       let state2 = (plugins.Log === undefined) ? undefined : await plugins.Log.addState('gray', item, `正在加載圖片`, state.id)
       return new Promise((resolve) => {
@@ -55,6 +55,7 @@ async function loadImagePixelData (images, state) {
                 workers[i].analyzing = false
                 workers[i].worker.removeAllListeners('message')
 
+                if (workerData.options.safetyMode === true) fs.writeFileSync(getPath(workerData.path, ['ImagesPixelData.json']), JSON.stringify(imagesPixelData))
                 resolve()
               }
             })

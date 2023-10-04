@@ -11,6 +11,8 @@ module.exports = class {
     if (!fs.statSync(path).isDirectory()) throw new Error(`${path} 不是一個資料夾`)
 
     this.#core = new Core(path, Object.assign({
+      safetyMode: false,
+      
       networkThread: 5,
       workerThread: os.cpus().length 
     }, options))
