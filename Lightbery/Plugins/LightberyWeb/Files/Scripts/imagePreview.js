@@ -16,11 +16,11 @@ export default async (parent, imageID) => {
 
     imagePreview.onclick = async () => {
       if (!open) {
-        let div2 = document.body.appendChild(createElement('div', { style: { position: 'fixed', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', left: '0px', top: '0px', width: '100vw', height: '100vh', backdropFilter: 'blur(5px) brightness(75%)', animation: 'opacityIn 0.5s 1', overflowY: 'scroll', zIndex: 999 }}))
-        let div3 = div2.appendChild(createElement('div', { style: { flexShrink: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}))
-
         let imageInfo = await (await fetch(`/api/getImageInfo?imageID=${imageID}`)).json()
         let imageData = await (await fetch(`/api/getImageData?imageID=${imageID}&quality=100`)).text()
+        
+        let div2 = document.body.appendChild(createElement('div', { style: { position: 'fixed', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', left: '0px', top: '0px', width: '100vw', height: '100vh', backdropFilter: 'blur(5px) brightness(75%)', animation: 'opacityIn 0.5s 1', overflowY: 'scroll', zIndex: 999 }}))
+        let div3 = div2.appendChild(createElement('div', { style: { flexShrink: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}))
       
         let image = div3.appendChild(createElement('img', { src: `data:image/jpeg;base64,${imageData}`, classList: 'shadow', style: { borderRadius: '5px', height: '90vh' }}))
       
