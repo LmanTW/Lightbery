@@ -35,7 +35,8 @@ async function loadImagePixelData (images, state) {
   await resolvePromise(images, async (item, index) => {
     if (plugins.Log !== undefined) state.change('white', '檢查器', `正在加載圖片像素資料 (${Math.trunc((100/images.length)*index)}%)`)
   
-    if (imagesPixelData[item] === undefined) {
+    if (imagesPixelData[item] === undefined) { 
+      change = true     
       let state2 = (plugins.Log === undefined) ? undefined : await plugins.Log.addState('gray', item, `正在加載圖片`, state.id)
       return new Promise((resolve) => {
         for (let i = 0; i < workers.length; i++) {
@@ -67,7 +68,10 @@ async function loadImagePixelData (images, state) {
   
   state.change('green', '檢查器', '圖片像素資料加載完成')
   
-  if (change) fs.writeFileSync(getPath(workerData.path, ['ImagesPixelData.json']), JSON.stringify(imagesPixelData))
+  if (change) {
+    fs.writeFileSync(getPath(workerData.path, ['ImagesPixelData.json']), JSON.stringify(imagesPixelData))
+    change = false
+  }
 }
 
 //檢查兩個陣列是否是一樣的
@@ -86,5 +90,10 @@ const plugins = require('./Plugin')
 let imagesPixelData = require(getPath(workerData.path, ['ImagesPixelData.json']))
 
 let workers = []
+let change = false
 
 for (let i = 0; i < workerData.options.workerThread; i++) workers.push({ analyzing: false, worker: new Worker(getPath(__dirname, ['AnalyzeImage.js']), { workerData: { path: workerData.path }})})
+
+process.addListener('exit', () => {
+  if (change) fs.writeFileSync(getPath(workerData.path, ['ImagesPixelData.json']), JSON.stringify(imagesPixelData))
+})

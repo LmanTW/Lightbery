@@ -35,14 +35,14 @@ module.exports = class {
             }
           }
         } else if (command.path[0] === 'remove') {
-          if (this.#core.images[command.path[1]] === undefined) this.#core.plugins.Log.adLog('error', `找不到圖片 ${command.path[1]}`)
+          if (this.#core.images[command.path[1]] === undefined) this.#core.plugins.Log.addLog('error', `找不到圖片 ${command.path[1]}`)
           else {
             this.#core.remove(command.path[1])
             this.#core.plugins.Log.addLog('complete', `成功移除圖片 ${command.path[1]}`)
           }
         } else if (command.path[0] === 'size') {
           this.#core.plugins.Log.addLog('complete', `圖庫大小: ${Object.keys(this.#core.images).length}`)
-        } else core.add(command.path[1])
+        } else core.add(command.path[0])
       })
 
       .event('input', () => {

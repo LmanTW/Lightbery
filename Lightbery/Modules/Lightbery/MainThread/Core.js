@@ -105,7 +105,11 @@ module.exports = class {
 
   //新增圖片
   async add (imageID) {
-    return await this.#workerHandler.sendRequest({ type: 'addImage', imageID })
+    let data = await this.#workerHandler.sendRequest({ type: 'addImage', imageID })
+    
+    this.save()
+
+    return data
   }
 
   //檢查圖片的資料
@@ -127,7 +131,14 @@ module.exports = class {
     if (this.images[imageID] === undefined) throw new Error(`找不到圖片 ${imageID}`)
 
     delete this.images[imageID]
-    fs.unlink(getPath(this.#path, ['Images', `${imageID}.jpg`]))
+    fs.unlinkSync(getPath(this.#path, ['Images', `${imageID}.jpg`]))
+    
+    this.save()
+  }
+
+  //儲存圖庫
+  async save () {
+    fs.writeFileSync(getPath(this.#path, ['Images.json']), JSON.stringify(this.images))
   }
 
   //檢查檔案
