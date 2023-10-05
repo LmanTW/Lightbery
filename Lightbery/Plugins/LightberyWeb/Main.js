@@ -50,6 +50,15 @@ module.exports = class {
           if (data === undefined) res.end('Image Not Found')
           else if (data === 'Image Data Not Found') res.end()
           else res.end((await sharp(data.data).jpeg({ quality: (query.quality === undefined || +query.quality < 10 || +query.quality > 100) ? 100 : +query.quality }).toBuffer()).toString('base64'))
+        } else if (path[1] === 'downloadImage') {
+          let data = this.#core.getImageData(query.imageID)
+
+          if (data === undefined) res.end('Image Not Found')
+          else if (data === 'Image Data Not Found') res.end()
+          else {
+            res.writeHead(200, { 'Content-Disposition': `attachment; filename=${query.imageID}.jpg`, 'Content-Type': 'image/jpg' })
+            res.end(data.data)
+          }
         }
       } else if (path[0] === 'script') {
         if (fs.existsSync(getPath(__dirname, ['Files', 'Scripts', path[1]]))) {
@@ -59,6 +68,11 @@ module.exports = class {
       } else if (path[0] === 'style') {
         if (fs.existsSync(getPath(__dirname, ['Files', 'Styles', path[1]]))) res.end(fs.readFileSync(getPath(__dirname, ['Files', 'Styles', path[1]])))
         else res.end('Resource Not Found')
+      } else if (path[0] === 'image') {
+        if (fs.existsSync(getPath(__dirname, ['Files', 'Images', path[1]]))) {
+          res.writeHead(200, { 'Content-Type': 'image/svg+xml' })
+          res.end(fs.readFileSync(getPath(__dirname, ['Files', 'Images', path[1]])))
+        } else res.end('Resource Not Found')
       } else if (fs.existsSync(getPath(__dirname, ['Files', 'Pages', `${path[0]}.html`]))) res.end(fs.readFileSync(getPath(__dirname, ['Files', 'Pages', `${path[0]}.html`])))
       else res.end(fs.readFileSync(getPath(__dirname, ['Files', 'Pages', 'home.html'])))
     })

@@ -42,7 +42,10 @@ module.exports = class {
           }
         } else if (command.path[0] === 'size') {
           this.#core.plugins.Log.addLog('complete', `圖庫大小: ${Object.keys(this.#core.images).length}`)
-        } else core.add(command.path[0])
+        } else {
+          if (this.#core.getImageInfo(command.path[0]) === undefined) this.#core.add(command.path[0])
+          else this.#core.plugins.Log.addLog('error', `已經有 ID 為 ${command.path[0]} 的圖片存在了`)
+        }
       })
 
       .event('input', () => {

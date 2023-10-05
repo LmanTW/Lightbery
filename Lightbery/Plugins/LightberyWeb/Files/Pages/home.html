@@ -25,6 +25,8 @@
 
   <script type="module">
     import imagePreview from '/script/imagePreview.js'
+    import fullImage from '/script/fullImage.js'
+    import { add, remove } from '/script/query.js'
 
     const input_search = document.getElementById('input_search')
     const select_type = document.getElementById('select_type')
@@ -34,6 +36,7 @@
     let params = new URLSearchParams(window.location.search)
     if (params.get('query') !== null) input_search.value = params.get('query')
     if (params.get('type') !== null) select_type.value = params.get('type')
+    if (params.get('imageID') !== null) fullImage(params.get('imageID'))
 
     let loading = false
     let chunk = 0
@@ -57,14 +60,21 @@
     addImagePreview()
 
     input_search.onchange = () => {
+      let query = remove(window.location.search, 'query')
+      window.history.pushState({}, null, `?${(input_search.value === '') ? query : add(query, [`query=${input_search.value}`])}`)
+
       while (images.lastElementChild) images.removeChild(images.lastElementChild)
+
       chunk = 0
       end = false
       addImagePreview()
     }
 
     select_type.onchange = () => {
+      window.history.pushState({}, null, `?${add(remove(window.location.search, 'type'), [`type=${select_type.options[select_type.selectedIndex].value}`])}`)
+
       while (images.lastElementChild) images.removeChild(images.lastElementChild)
+
       chunk = 0
       end = false
       addImagePreview()
