@@ -25,7 +25,10 @@ module.exports = class {
         this.#connection = new Connection(this.#core, client, true)
 
         this.#connection.socket.once('connect_error', () => this.#connection = undefined)
-        this.#connection.socket.once('disconnect', () => this.#connection = undefined)
+        this.#connection.socket.once('disconnect', () => {
+          if (this.#core.plugins.Log !== undefined) this.#core.plugins.Log.addLog('warn', `與 ${this.#connection.connectionAddress} 的連接以斷開`)
+          this.#connection = undefined
+        })
       } else client.disconnect()
     })
 
@@ -55,6 +58,7 @@ module.exports = class {
           if (command.parameter.includes('-m') || command.parameter.includes('-r')){
             let data
             if (command.parameter.includes('-m')) data = await this.merge()
+            else if (command.parameter.includes('-r')) data = await this.replace()
 
             if (data.error) this.#core.plugins.Log.addLog('error', '沒有任何連接的 Lightbery')
           } else this.#core.plugins.Log.addLog('error', '請選擇一種下載模式')
@@ -77,7 +81,10 @@ module.exports = class {
           this.#connection = undefined
           resolve({ error: true, content: 'Connection Faild' })
         })
-        this.#connection.socket.once('disconnect', () => this.#connection = undefined)
+        this.#connection.socket.once('disconnect', () => {
+          if (this.#core.plugins.Log !== undefined) this.#core.plugins.Log.addLog('warn', `與 ${this.#connection.connectionAddress} 的連接以斷開`)
+          this.#connection = undefined
+        })
       } else resolve({ error: true, content: 'Already have a connection' })
     })
   }

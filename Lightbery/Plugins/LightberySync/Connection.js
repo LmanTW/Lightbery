@@ -20,7 +20,6 @@ module.exports = class {
       if (this.#core.plugins.Log !== undefined) this.#core.plugins.Log.finishState(state, 'red', 'LightberySync', (server) ? `${this.#socket.handshake.address} 連接失敗` : `無法連接至 ${this.#socket.io.uri}`)
     })
 
-    this.#socket.emit('info', { imageAmount: Object.keys(this.#core.images).length })
     this.#socket.once('info', (data) => {
       this.#info = Object.assign(this.#info, data)
   
@@ -36,6 +35,8 @@ module.exports = class {
   
       setInterval(() => socket.emit('info', { imageAmount: Object.keys(this.#core.images).length }), 10000)
     })
+
+    this.#socket.emit('info', { imageAmount: Object.keys(this.#core.images).length })
   
     this.#socket.on('request', (data) => {
       if (data.type === 'ping') this.#socket.emit('response', { requestID: data.requestID })

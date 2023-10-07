@@ -36,11 +36,16 @@ let externalCommands = {}
 
 //取得指令建議
 function getCommandSuggestion (input) {
-  let result = []
   let longestName = 0
   
+  let result = []
   Object.keys(commands).forEach((item) => {
-    if ((item.includes('<') && item.includes(input.substring(0, item.indexOf('<')))) || item.includes(input)) {
+    if (item === '<imageID>') {
+      if (!isNaN(+input)) {
+        if (wcwidth(item) > longestName) longestName = wcwidth(item)
+        result.push(item)
+      }
+    } else if ((item.includes('<') && item.includes(input.substring(0, item.indexOf('<')))) || item.includes(input)) {
       if (wcwidth(item) > longestName) longestName = wcwidth(item)
       result.push(item)
     }
@@ -71,7 +76,7 @@ function getCommandSuggestion (input) {
   })
 
   if (result2.length > 0) {
-    lines.push('')
+    if (result > 0) lines.push('')
     lines.push('- 外部指令 -')
     lines.push('')
     result2.forEach((item) => {
