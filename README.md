@@ -22,6 +22,7 @@ myLightbery.addPlugin(Plugins.LightberyCLI)                  //添加插件 Ligh
 * [內建插件](#內建插件)
    * [LightberyCLI](#lightberycli)
    * [LightberyWeb](#lightberyweb)
+   * [LightberySync](#lightberysync)
 * [資料格式](#資料格式)
   * [圖片資訊](#圖片資訊)
   * [圖片資料](#圖片資料)
@@ -126,8 +127,49 @@ const { Lightbery, Plugins } = require('./Lightbery/API')    //導入 Lightbery 
 let myLightbery = new Lightbery(`${__dirname}/My Lightbery`) //加載一個 Lightbery
 myLightbery.addPlugin(Plugins.LightberyWeb, <options>)       //添加插件 LightberyWeb (網頁圖片瀏覽器)
 ```
-* `options <object>`｜Lightbery 的選項
+* `options <object>`｜LightberyWeb 的選項
   * `port <number>`｜網頁瀏覽器使用的端口 `預設為: 8080`
+
+## LightberySync
+內建的 Lightbery 同步器，讓你可以在不同設備之間簡單的同步 Lightbery
+```js
+const { Lightbery, Plugins } = require('./Lightbery/API')                 //導入 Lightbery 與 Plugins
+
+let myLightbery = new Lightbery(`${__dirname}/My Lightbery`)              //加載一個 Lightbery
+myLightbery.addPlugin(Plugins.LightberyCLI)                               //可與 LightberyCLI 做搭配使用 (必須先添加)
+let lightberySync myLightbery.addPlugin(Plugins.LightberySync, <options>) //添加插件 LightberySync (Lightbery 同步器)
+```
+* `options <object>`｜LightberySync 的選項
+  * `port <number>`｜Socket 使用的端口 `預設為: 3000`
+
+### connect
+```js
+await .connect(url) //連接至其他 Lightbery
+```
+* `url <string>`｜Socket 的網址
+
+> 當在連線的時候發生錯誤，他會返回 { error: true, content: <string> }，如果沒有發生錯誤則會返回 { error: false }
+
+### merge
+```js
+await .merge() //合併 Lightbery
+```
+
+> 當在合併的時候發生錯誤，他會返回 { error: true, content: <string> }，如果沒有發生錯誤則會返回 { error: false }
+
+### replace
+```js
+await .replace() //替換 Lightbery
+```
+
+> 當在替換的時候發生錯誤，他會返回 { error: true, content: <string> }，如果沒有發生錯誤則會返回 { error: false }
+
+### disconnect
+```js
+.disconnect() //關閉連接
+```
+
+> 返回 `<undefined>`
 
 # 資料格式
 
