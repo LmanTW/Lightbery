@@ -3,6 +3,7 @@ module.exports = class {
   #core
 
   #socket
+  #server
   #info = { ping: 0, imageAmount: 0 }
 
   #requests = {}
@@ -11,12 +12,12 @@ module.exports = class {
     this.#core = core
 
     this.#socket = socket
+    this.#server = server
 
     let state = (this.#core.plugins.Log === undefined) ? undefined : this.#core.plugins.Log.addState('white', 'LightberySync', (server) ? `${this.#socket.handshake.address} 正在嘗試連接` : `正在嘗試連接至 ${this.#socket.io.uri}`)
 
     this.#socket.once('connect_error', () => {
       if (this.#core.plugins.Log !== undefined) this.#core.plugins.Log.finishState(state, 'red', 'LightberySync', (server) ? `${this.#socket.handshake.address} 連接失敗` : `無法連接至 ${this.#socket.io.uri}`)
-      this.#socket.disconnect()
     })
 
     this.#socket.emit('info', { imageAmount: Object.keys(this.#core.images).length })
@@ -51,7 +52,7 @@ module.exports = class {
 
   get socket () {return this.#socket}
   get info () {return this.#info}
-  get connectionAddress () {return (this.server) ? this.#socket.handshake.address : this.#socket.io.uri}
+  get connectionAddress () {return (this.#server) ? this.#socket.handshake.address : this.#socket.io.uri}
 
   //請求
   async request (data) {

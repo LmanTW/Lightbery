@@ -24,6 +24,7 @@ module.exports = class {
       if (this.#connection === undefined) {
         this.#connection = new Connection(this.#core, client, true)
 
+        this.#connection.socket.once('connect_error', () => this.#connection = undefined)
         this.#connection.socket.once('disconnect', () => this.#connection = undefined)
       } else client.disconnect()
     })
@@ -72,7 +73,10 @@ module.exports = class {
         this.#connection = new Connection(this.#core, io(url), false)
         
         this.#connection.socket.once('connection', () => resolve({ error: false }))
-        this.#connection.socket.once('connect_failed', () => resolve({ error: true, content: 'Connection Faild' }))
+        this.#connection.socket.once('connect_error', () => {
+          this.#connection = undefined
+          resolve({ error: true, content: 'Connection Faild' })
+        })
         this.#connection.socket.once('disconnect', () => this.#connection = undefined)
       } else resolve({ error: true, content: 'Already have a connection' })
     })
