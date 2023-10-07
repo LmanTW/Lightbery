@@ -5,6 +5,7 @@ module.exports = {
   Lightbery: require('./Modules/Lightbery/Main'),
   Plugins: {
     LightberyCLI: require('./Plugins/LightberyCLI/Main'),
-    LightberyWeb: require('./Plugins/LightberyWeb/Main')
+    LightberyWeb: require('./Plugins/LightberyWeb/Main'),
+    LightberySync: require('./Plugins/LightberySync/Main')
   }
 }

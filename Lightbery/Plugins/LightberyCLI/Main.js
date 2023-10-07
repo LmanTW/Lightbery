@@ -2,6 +2,8 @@
 module.exports = class {
   #core
 
+  #cli
+
   #commandSuggestion = getCommandSuggestion('').lines
 
   constructor (core) {
@@ -9,13 +11,13 @@ module.exports = class {
 
     if (this.#core.plugins.Log === undefined) this.#core.addPlugin(require('../Log/Main'))
 
-    let cli = new CLI()
+    this.#cli = new CLI()
       .addPage('日誌', () => this.#core.plugins.Log.get())
       .addPage('指令', () => this.#commandSuggestion)
 
       .event('enter', async (text) => {
         this.#commandSuggestion = getCommandSuggestion('').lines
-        cli.switchPage(0)
+        this.#cli.switchPage(0)
 
         let command = parseCommand(text)
 
@@ -42,31 +44,41 @@ module.exports = class {
           }
         } else if (command.path[0] === 'size') {
           this.#core.plugins.Log.addLog('complete', `圖庫大小: ${Object.keys(this.#core.images).length}`)
-        } else {
+        } else if (!isNaN(command.path[0])) {
           if (this.#core.getImageInfo(command.path[0]) === undefined) this.#core.add(command.path[0])
           else this.#core.plugins.Log.addLog('error', `已經有 ID 為 ${command.path[0]} 的圖片存在了`)
         }
       })
 
       .event('input', () => {
-        this.#commandSuggestion = getCommandSuggestion(cli.data.input).lines
-        cli.switchPage(1)
+        this.#commandSuggestion = getCommandSuggestion(this.#cli.data.input).lines
+        this.#cli.switchPage(1)
       })
       .event('keyPress', (data) => {
-        if (data.toString('hex') === '7f') this.#commandSuggestion = getCommandSuggestion(cli.data.input).lines
+        if (data.toString('hex') === '7f') this.#commandSuggestion = getCommandSuggestion(this.#cli.data.input).lines
         else if (data.toString('hex') === '09') {
-          let result = getCommandSuggestion(cli.data.input).result[0]
-          if (result.includes('<')) cli.setInput(result.substring(0, result.indexOf('<')))
-          else cli.setInput(result)
+          let result = getCommandSuggestion(this.#cli.data.input).result[0]
+          if (result.includes('<')) this.#cli.setInput(result.substring(0, result.indexOf('<')))
+          else this.#cli.setInput(result)
         }
       })
   }
 
   static get pluginID () {return 'LightberyCLI'}
   get childThreadApiPath () {return undefined}
+
+  get cli () {return this.#cli}
+  get parseCommand () {return parseCommand}
+
+  //添加指令
+  addCommand (name, description, child) {
+    addCommand(name, description, child)
+
+    this.#commandSuggestion = getCommandSuggestion(this.#cli.data.input).lines
+  }
 }
 
 const { CLI } = require('./DynamicCliBuilder')
 
-const getCommandSuggestion = require('./GetCommandSuggestion')
+const { getCommandSuggestion, addCommand } = require('./GetCommandSuggestion')
 const parseCommand = require('./ParseCommand')

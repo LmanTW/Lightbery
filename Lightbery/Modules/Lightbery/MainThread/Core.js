@@ -62,8 +62,6 @@ module.exports = class {
   search (query, type) {
     let keys = Object.keys(this.images)
     let result = []
-
-    console.log(query, type)
   
     if (type === undefined) {
       result = this.search(query, 'title')
