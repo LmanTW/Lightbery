@@ -62,15 +62,17 @@ module.exports = class {
   search (query, type) {
     let keys = Object.keys(this.images)
     let result = []
+
+    console.log(query, type)
   
     if (type === undefined) {
       result = this.search(query, 'title')
-      this.search(query, 'author').forEach((item) => {
+      for (let item of this.search(query, 'author')) {
         if (!result.includes(item)) result.push(item)
-      })
-      this.search(query, 'tags').forEach((item) => {
+      }
+      for (let item of this.search(query, 'tags')) {
         if (!result.includes(item)) result.push(item)
-      })
+      }
     } else if (type === 'title') {
       result = keys.filter((item) => {
         let state = true
@@ -91,14 +93,15 @@ module.exports = class {
       })
     } else if (type === 'tags') {
       result = keys.filter((item) => {
-        let state = true
-        for (let item2 of this.images[item].tags) {
-          for (let item3 of query) {
-            state = item2.toLowerCase().includes(item3.toLowerCase())
-            if (!state) break
+        for (let item2 of query) {
+          let state2 = true
+          for (let item3 of this.images[item].tags) {
+            state2 = item2.toLowerCase().includes(item3.toLowerCase())
+            if (state2) break
           }
-          return state
+          if (!state2) return false
         }
+        return true
       })
     }
 
@@ -116,8 +119,11 @@ module.exports = class {
 
   //檢查圖片的資料
   async checkImagesData (images) {
-    for (let item of images) {
-      if (this.images[item] === undefined) throw new Error(`找不到圖片 ${item}`)
+    if (images === undefined) images = Object.keys(this.images)
+    else {
+      for (let item of images) {
+        if (this.images[item] === undefined) throw new Error(`找不到圖片 ${item}`)
+      }
     }
 
     await this.#workerHandler.sendRequest({ type: 'checkImagesData', images })

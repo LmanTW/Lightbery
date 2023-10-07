@@ -35,7 +35,7 @@ module.exports = class {
           } else {
             let chunk = (query.chunk === undefined) ? 0 : query.chunk
 
-            array = this.#core.search(query.query, (query.type === 'all') ? undefined : query.type).slice(chunk*25, (chunk*25)+25)
+            array = this.#core.search(query.query.split(','), (query.type === 'all') ? undefined : query.type).slice(chunk*25, (chunk*25)+25)
           }
 
           res.end(JSON.stringify(array))
