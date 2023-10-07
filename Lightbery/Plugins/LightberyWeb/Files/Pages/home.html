@@ -1,7 +1,9 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Lightbery｜主頁</title>
+
+    <title>Lightbery｜探索</title>
+
     <link rel="stylesheet" type="text/css" href="/style/basic.css" />
   </head>
 
@@ -24,9 +26,11 @@
   </body>
 
   <script type="module">
+    import createElement from '/script/createElement.js'
     import imagePreview from '/script/imagePreview.js'
-    import fullImage from '/script/fullImage.js'
+    import updateTitle from '/script/updateTitle.js'
     import { add, remove } from '/script/query.js'
+    import fullImage from '/script/fullImage.js'
 
     const input_search = document.getElementById('input_search')
     const select_type = document.getElementById('select_type')
@@ -37,6 +41,8 @@
     if (params.get('query') !== null) input_search.value = params.get('query')
     if (params.get('type') !== null) select_type.value = params.get('type')
     if (params.get('imageID') !== null) fullImage(params.get('imageID'))
+
+    updateTitle()
 
     let loading = false
     let chunk = 0
@@ -62,6 +68,7 @@
     input_search.onchange = () => {
       let query = remove(window.location.search, 'query')
       window.history.pushState({}, null, `?${(input_search.value === '') ? query : add(query, [`query=${input_search.value}`])}`)
+      updateTitle()
 
       while (images.lastElementChild) images.removeChild(images.lastElementChild)
 

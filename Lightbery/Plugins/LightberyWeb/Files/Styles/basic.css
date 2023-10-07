@@ -3,6 +3,10 @@ body {
   margin: 0px;
 }
 
+a {
+  color: #0197F6
+}
+
 @keyframes opacityIn {
   0% { opacity: 0 }
   100% { opacity: 1 }
@@ -11,6 +15,12 @@ body {
 @keyframes opacityOut {
   0% { opacity: 1 }
   100% { opacity: 0 }
+}
+
+@keyframes fetching {
+  0% { transform: scale(1) }
+  50% { transform: scale(1.2) }
+  100% { transform: scale(1) }
 }
 
 .shadow {

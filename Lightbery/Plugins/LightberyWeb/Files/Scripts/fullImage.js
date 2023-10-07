@@ -1,19 +1,29 @@
 //完整圖片
 export default async (imageID) => {
   return new Promise(async (resolve) => {
-    window.history.pushState({}, null, `?${add(window.location.search, [`imageID=${imageID}`])}`)
+    window.history.pushState({}, null, `?${add(remove(window.location.search, 'imageID'), [`imageID=${imageID}`])}`)
 
+    updateTitle()
+
+
+    let div = document.body.appendChild(createElement('div', { style: { position: 'fixed', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', left: '0px', top: '0px', width: '100vw', height: '100vh', backdropFilter: 'blur(5px) brightness(75%)', '-webkit-backdrop-filter': 'blur(10px) brightness(75%)', animation: 'opacityIn 0.5s 1', overflowY: 'scroll', zIndex: 998 }}))
+    let div2 = div.appendChild(createElement('div', { style: { display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100vw', height: '100vh' }}))
+    let image_loading = div2.appendChild(createElement('img', { src: '/image/cloudDownload.svg', style: { width: '100px', animation: 'fetching 1s infinite' }}))
+  
     let imageInfo = await (await fetch(`/api/getImageInfo?imageID=${imageID}`)).json()
     let imageData = await (await fetch(`/api/getImageData?imageID=${imageID}&quality=100`)).text()
 
-    let div = document.body.appendChild(createElement('div', { style: { position: 'fixed', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', left: '0px', top: '0px', width: '100vw', height: '100vh', backdropFilter: 'blur(5px) brightness(75%)', '-webkit-backdrop-filter': 'blur(10px) brightness(75%)', transitionDuration: '1s', animation: 'opacityIn 0.5s 1', overflowY: 'scroll', zIndex: 998 }}))
-    let div2 = div.appendChild(createElement('div', { style: { backgroundColor: '#032039', borderRadius: '10px', marginTop: 'calc(5vw)', marginBottom: 'calc(5vw)', width: 'calc(100vw - 10vw)', overflow: 'hidden' }}))
+    div2.remove()
+
+    div2 = div.appendChild(createElement('div', { style: { backgroundColor: '#032039', borderRadius: '10px', marginTop: 'calc(5vw)', marginBottom: 'calc(5vw)', width: 'calc(100vw - 10vw)', overflow: 'hidden' }}))
     let div3 = div2.appendChild(createElement('div', { style: { display: 'flex', justifyContent: 'center', marginBottom: '5px', width: 'calc(100vw - 10vw)' }}))
     let div4 = div3.appendChild(createElement('div', { style: { display: 'flex', justifyContent: 'center', backgroundColor: '#031C32', borderRadius: '5px',  marginTop: '2.5vw', width: 'calc(100vw - 15vw)', overflow: 'hidden' }}))
-    let image = div4.appendChild(createElement('img', { src: `data:image/jpeg;base64,${imageData}`}))
+    let image = div4.appendChild(createElement('img', { src: `data:image/jpeg;base64,${imageData}`, style: { opacity: 0 }}))
     image.onload = () => {
       if (image.height > image.width) image.style.height = 'calc(100vh - 100px)'
       else image.style.width = 'calc(100vw - 15vw)'
+
+      image.style.opacity = 1
     }
     let div5 = div2.appendChild(createElement('div', { style: { display: 'flex', justifyContent: 'center', width: 'calc(100vw - 10vw)' }}))
     let div6 = div5.appendChild(createElement('div', { style: { width: 'calc(100vw - 15vw)' }}))
@@ -34,12 +44,13 @@ export default async (imageID) => {
       div.addEventListener('click', (e) => {
         if (e.target === div) {
           window.history.pushState({}, null, `?${remove(window.location.search, 'imageID')}`)
+          updateTitle()
 
-          div.style.opacity = 0
+          div.style.animation = 'opacityOut 0.5s 1'
           setTimeout(() => {
             div.remove()
             resolve()
-          }, 1000)
+          }, 475)
         } else listener()
       }, { once: true })
     }
@@ -49,4 +60,5 @@ export default async (imageID) => {
 }
 
 import createElement from '/script/createElement.js'
+import updateTitle from '/script/updateTitle.js'
 import { add, remove } from '/script/query.js'

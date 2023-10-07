@@ -73,8 +73,7 @@ module.exports = class {
           res.writeHead(200, { 'Content-Type': 'image/svg+xml' })
           res.end(fs.readFileSync(getPath(__dirname, ['Files', 'Images', path[1]])))
         } else res.end('Resource Not Found')
-      } else if (fs.existsSync(getPath(__dirname, ['Files', 'Pages', `${path[0]}.html`]))) res.end(fs.readFileSync(getPath(__dirname, ['Files', 'Pages', `${path[0]}.html`])))
-      else res.end(fs.readFileSync(getPath(__dirname, ['Files', 'Pages', 'home.html'])))
+      } else res.end(fs.readFileSync(getPath(__dirname, ['Files', 'Pages', 'home.html']), 'utf-8'))
     })
 
     server.listen((options.port === undefined) ? 8080 : options.port)
