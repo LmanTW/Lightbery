@@ -76,7 +76,7 @@ function getCommandSuggestion (input) {
   })
 
   if (result2.length > 0) {
-    if (result > 0) lines.push('')
+    if (result.length > 0) lines.push('')
     lines.push('- 外部指令 -')
     lines.push('')
     result2.forEach((item) => {

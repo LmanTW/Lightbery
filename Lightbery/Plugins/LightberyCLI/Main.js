@@ -58,8 +58,10 @@ module.exports = class {
         if (data.toString('hex') === '7f') this.#commandSuggestion = getCommandSuggestion(this.#cli.data.input).lines
         else if (data.toString('hex') === '09') {
           let result = getCommandSuggestion(this.#cli.data.input).result[0]
-          if (result.includes('<')) this.#cli.setInput(result.substring(0, result.indexOf('<')))
-          else this.#cli.setInput(result)
+          if (result !== undefined) {
+            if (result.includes('<')) this.#cli.setInput(result.substring(0, result.indexOf('<')))
+            else this.#cli.setInput(result)
+          }
         }
       })
   }
